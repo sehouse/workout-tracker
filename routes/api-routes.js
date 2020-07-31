@@ -7,9 +7,9 @@ router.get("/api/workouts", (req, res) => {
         dbWorkout.forEach(workout => {
             var total = 0;
             workout.exercises.forEach(e => {
-                total += e.time;
+                total += e.duration;
             });
-            workout.totalTime = total;
+            workout.totalDuration = total;
         });
         res.json(dbWorkout);
     }).catch(err => {
@@ -21,7 +21,7 @@ router.put("/api/workouts/:id", (req, res) => {
     Workout.findOneAndUpdate(
         { _id: req.params.id },
         {
-            $inc: { totalTime: req.body.time },
+            $inc: { totalDuration: req.body.duration },
             $push: { exercises: req.body }
         },
         { new: true }).then(dbWorkout => {
